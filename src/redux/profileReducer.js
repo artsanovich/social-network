@@ -3,6 +3,7 @@ import { usersAPI, profileAPI } from "../api/Api";
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = "SET-USER-PROFILE";
 const SET_STATUS_TEXT = "SET-STATUS-TEXT";
+const SAVE_PHOTO = "SAVE-PHOTO"
 
 const initialState = {
     posts: [
@@ -35,6 +36,8 @@ const profileReducer = (state = initialState, action) => {
             }
         case SET_USER_PROFILE:
             return {...state, profile: action.profile}
+        case SAVE_PHOTO:
+            return {...state, profile: {...state.profile, photos: action.photos}}
         default:
             return state;
     }
@@ -53,6 +56,11 @@ export const setUserProfileCreator = (profile) => ({
 export const setStatusTextCreator = (statusText) => ({
     type: SET_STATUS_TEXT,
     statusText
+})
+
+export const savePhotoCreator = (photos) => ({
+    type: SAVE_PHOTO,
+    photos
 })
 
 export const setUserProfileThunkCreator = (userId) => {
@@ -77,6 +85,27 @@ export const updateStatusTextThunkCreator = (statusText) => {
         const resp = await profileAPI.updateStatusText(statusText)
             if(resp.data.resultCode === 0) {
                 dispatch(setStatusTextCreator(statusText))
+            }
+    }
+}
+
+export const savePhotoThunkCreator = (file) => {
+
+    return async (dispatch) => {
+        const resp = await profileAPI.savePhoto(file)
+            if(resp.data.resultCode === 0) {
+                dispatch(savePhotoCreator(resp.data.data.photos))
+            }
+    }
+}
+
+export const saveProfileThunkCreator = (profile) => {
+
+    return async (dispatch, getState) => {
+        const userId = getState().auth.userId
+        const resp = await profileAPI.saveProfile(profile)
+            if(resp.data.resultCode === 0) {
+                dispatch(setUserProfileThunkCreator(userId))
             }
     }
 }
