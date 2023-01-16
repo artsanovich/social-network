@@ -2,25 +2,14 @@ import React from 'react';
 import Profile from './Profile';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import {setUserProfileCreator, setUserProfileThunkCreator, getStatusTextThunkCreator, updateStatusTextThunkCreator, savePhotoThunkCreator, saveProfileThunkCreator} from '../../redux/profileReducer'
+import { setUserProfileThunkCreator, getStatusTextThunkCreator, updateStatusTextThunkCreator, savePhotoThunkCreator, saveProfileThunkCreator} from '../../redux/profileReducer'
 import {Navigate, useLocation, useNavigate, useParams} from 'react-router-dom'
-import { usersAPI } from '../../api/Api';
 import { WithAuthRedirect } from '../../hoc/WithAuthRedirect';
 import { compose } from 'redux';
-
-// wrapper to use react router's v6 hooks in class component(to use HOC pattern, like in router v5)
-function withRouter(Component) {
-  return(props) => {
-      const match = {params: useParams()}
-      return (
-          <Component
-              {...props}
-              router={match}
-          />
-      );
-  }
-
-}
+import { AppStateType } from '../../redux/reduxStore';
+import { RouteComponentProps } from 'react-router';
+import { ProfileType } from '../../types/Types';
+import { withRouter } from '../../hoc/WithRouter';
 
 class ProfileContainer extends React.Component {
 
@@ -29,7 +18,7 @@ componentDidMount() {
 }
 
 componentDidUpdate(prevProps) {
-  if (this.props.router.params.userId != this.props.router.params.userId) {
+  if (this.props.router.params.userId != prevProps.router.params.userId) {
     this.refreshProfile()
   }
 }
