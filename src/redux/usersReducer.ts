@@ -55,7 +55,7 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
                 ...state,
                 followingProgress: action.isFetching 
                 ? [...state.followingProgress, action.userId]
-                : state.followingProgress.filter(id => id !== action.userId)
+                : state.followingProgress.filter(id => id != action.userId)
             }
 
         default:
@@ -104,7 +104,7 @@ export const requestUsersThunkCreator = (currentPage: number, pageSize: number):
 const _followUnfollowFlow = async (dispatch: DispatchType, userId: number, apiMethod: any, actionCreator: (userId: number) => ActionsType) => {
     dispatch(actions.toggleFollowingProgressCreator(true, userId))
     const resp = await apiMethod(userId)
-        if(resp.data.resultCode === 0) {
+        if(resp.resultCode === 0) {
             dispatch(actionCreator(userId))
         }
     dispatch(actions.toggleFollowingProgressCreator(false, userId))

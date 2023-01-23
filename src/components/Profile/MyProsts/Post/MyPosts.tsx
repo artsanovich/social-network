@@ -12,7 +12,7 @@ const MyPosts = (props: MyPostsPropsFromConnect) => {
   
   return (
     <div className={classes.postsBlock}>
-      <h3>My Posts</h3>
+      <h3 className={classes.postsTitle}>My Posts</h3>
       <div>
         <AddNewPostForm {...props} />
       </div>
@@ -29,7 +29,7 @@ const AddNewPostForm = (props: MyPostsPropsFromConnect) => {
     newPostText: string
   }
 
-  const initialValues: FormValues = {
+  let initialValues: FormValues = {
     newPostText: ""
   }
 
@@ -38,8 +38,8 @@ const AddNewPostForm = (props: MyPostsPropsFromConnect) => {
   }
   
   return (
-      <div>
-          <h1>Add Message</h1>
+      <div className={classes.messageForm}>
+          <h1 className={classes.messageTitle}>Add Message</h1>
           <Formik
               initialValues={initialValues}
               validate={values => {
@@ -51,16 +51,17 @@ const AddNewPostForm = (props: MyPostsPropsFromConnect) => {
               }}
               onSubmit={(values) => {
                 onAddPost(values)
+                values.newPostText = ''
               }}
               validationSchema={addNewPostFormSchema}>
               {() => (
                   <Form>
-                      <div>
+                      <div className={classes.messageInput}>
                           <Field type={'text'} name={'newPostText'} placeholder={'add post...'}/>
                       </div>
                       <ErrorMessage name="newPostText" component="div"/>
 
-                      <button type={'submit'}>Send</button>
+                      <button className={classes.messageSubmit} type={'submit'}>Send</button>
                   </Form>
               )}
           </Formik>

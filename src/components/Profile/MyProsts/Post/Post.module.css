@@ -1,6 +1,12 @@
 .item {
-    color: #fff;
-  }
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.itemText {
+  margin-left: 5px;
+}
   
 .item img {
     width: 80px;

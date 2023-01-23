@@ -4,7 +4,6 @@ import DialogItem from './DialogItem/DialogItem'
 import Message from "./Message/Message";
 import classes from './Dialogs.module.css';
 import {Formik, Form, Field, ErrorMessage, FormikErrors} from "formik";
-import addMessageFormSchema from "../FormValidation/AddMessageFormSchema";
 import { DialogsPropsFromConnect } from "./DialogsContainer";
 
 
@@ -61,16 +60,16 @@ const AddMessageForm = (props: DialogsPropsFromConnect) => {
                 }}
                 onSubmit={(values) => {
                     addNewMessage(values)
-                }}
-                validationSchema={addMessageFormSchema}>
+                    values.newMessageBody = ''
+                }}>
                 {() => (
                     <Form>
-                        <div>
+                        <div className={classes.messageInput}>
                             <Field type={'text'} name={'newMessageBody'} placeholder={'add message...'}/>
+                            <ErrorMessage name="newMessageBody" component="div"/>
                         </div>
-                        <ErrorMessage name="newMessageBody" component="div"/>
 
-                        <button type={'submit'}>Send</button>
+                        <button className={classes.submitButton} type={'submit'}>Send</button>
                     </Form>
                 )}
             </Formik>

@@ -1,62 +1,31 @@
 import React, { useEffect } from "react";
-import { connect, ConnectedProps } from "react-redux";
-import { getPageSize, getFollowingProgress, getIsFetching, getCurrentPage, getTotalUsersCount, getUsersSelector } from "../../redux/usersSelectors";
-import {followThunkCreator, unfollowThunkCreator, requestUsersThunkCreator} from '../../redux/usersReducer'
-import Users from "./Users";
+import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../redux/reduxStore";
+import { requestUsersThunkCreator } from "../../redux/usersReducer";
+import { getPageSize, getFollowingProgress, getIsFetching, getCurrentPage, getTotalUsersCount } from "../../redux/usersSelectors";
 import Preloader from "../common/Preloader/Preloader";
-import { WithAuthRedirect } from "../../hoc/WithAuthRedirect";
-import { compose } from "redux";
-import { UserType } from "../../types/Types";
-import { FC } from "react";
-import { AppStateType } from "../../redux/reduxStore";
+
+import { Users } from "./Users";
 
 
-const UsersContainer = (props: UsersPropsFromConnect) => {
-    
+export const UsersContainer = () => {
+
+    const dispatch: AppDispatch = useDispatch()
+
+    const currentPage = useSelector(getCurrentPage)
+    const pageSize = useSelector(getPageSize)
+
     useEffect(() => {
-        props.requestUsers(props.currentPage, props.pageSize);
+        dispatch(requestUsersThunkCreator(currentPage, pageSize));
     }, [])
 
-    const onRequestUsers = (page: number) => {
-        props.requestUsers(page, props.pageSize);
-    }
+    const isFetching = useSelector(getIsFetching)
 
     return (<>
             {
-                props.isFetching ? 
+                isFetching ? 
                 <Preloader/>
-                : <Users
-                    totalUsersCount={props.totalUsersCount}
-                    pageSize={props.pageSize}
-                    currentPage={props.currentPage}
-                    onPageChanged={onRequestUsers}
-                    users={props.users}
-                    follow={props.follow}
-                    unfollow={props.unfollow}
-                    followingProgress={props.followingProgress}
-                />
+                : <Users/>
             }   
             </>) 
 }
-
-const mapStateToProps = (state: AppStateType) => {
-    return {
-        users: getUsersSelector(state),
-        pageSize: getPageSize(state),
-        totalUsersCount: getTotalUsersCount(state),
-        currentPage: getCurrentPage(state),
-        isFetching: getIsFetching(state),
-        followingProgress: getFollowingProgress(state)
-    }
-}
-
-
-export type UsersPropsFromConnect = ConnectedProps<typeof UsersConnector>
-
-const UsersConnector = connect(mapStateToProps, {
-             follow: followThunkCreator,
-             unfollow: unfollowThunkCreator,
-             requestUsers: requestUsersThunkCreator,
-            })
-
-export default compose<React.ComponentType>(UsersConnector)(UsersContainer)

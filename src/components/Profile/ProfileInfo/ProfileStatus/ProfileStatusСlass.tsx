@@ -3,12 +3,13 @@ import classes from './ProfileStatus.module.css'
 
 type PropsType = {
   statusText: string
+  isOwner: boolean
   updateStatusText: (newStatusText: string) => void
 }
 
 type StateType = {
   editMode: boolean,
-  statusText: string
+  statusText: string,
 }
 
 class ProfileStatus extends React.Component<PropsType, StateType> {
@@ -19,17 +20,19 @@ class ProfileStatus extends React.Component<PropsType, StateType> {
   }
 
   activateEditMode = () => {
+    if (this.props.isOwner) {
     this.setState({
       editMode: true,
       statusText: this.props.statusText
     })
   }
+  }
 
   deactivateEditMode = () => {
-    this.setState({
-      editMode: false
-    })
-    this.props.updateStatusText(this.state.statusText)
+      this.setState({
+        editMode: false
+      })
+      this.props.updateStatusText(this.state.statusText)
   }
 
   onStatusTextChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,15 +51,15 @@ class ProfileStatus extends React.Component<PropsType, StateType> {
 
   render() {
     return (
-      <div>
+      <div className={classes.statusBlock}>
         {!this.state.editMode &&
         <div onClick={this.activateEditMode}>
-          <b>Status: </b>
-          <span>{this.props.statusText || "no status"}</span>
+          <span className={classes.statusTitle}><b>Status: </b></span>
+          <span className={classes.statusText}>{this.props.statusText || "no status"}</span>
         </div>
         }
-        {this.state.editMode &&
-        <div>
+        {this.state.editMode && 
+        <div className={classes.statusBlock}>
           <input onChange={this.onStatusTextChange} autoFocus={true} onBlur={this.deactivateEditMode} value={this.state.statusText} />
         </div>
         } 

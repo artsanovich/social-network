@@ -1,22 +1,50 @@
 import classes from './Header.module.css';
 import { NavLink } from 'react-router-dom';
-import { HeaderPropsFromConnect } from './HeaderContainer';
+import { Header } from 'antd/es/layout/layout';
+import { Avatar, Button, Col, Layout, Menu, Row } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { selectCurrentUserLogin, selectIsAuth } from '../../redux/authSelectors';
+import { useDispatch } from 'react-redux';
+import { logoutThunkCreator } from '../../redux/authReducer';
+import { AppDispatch } from '../../redux/reduxStore';
 
-type PropsType = HeaderPropsFromConnect
+export const AppHeader = () => {
 
-const Header = (props: PropsType) => {
+    const { Header } = Layout;
+
+    const isAuth = useSelector(selectIsAuth)
+    const login = useSelector(selectCurrentUserLogin)
+
+    const dispatch: AppDispatch = useDispatch()
+
+    const logout = () => {
+        dispatch(logoutThunkCreator())
+    }
+
+
     return (
-        <header className={classes.header}>
-            <img src="https://cdn-icons-png.flaticon.com/512/3081/3081797.png" alt="" />
 
-            <div className={classes.loginBlock}>
-                {props.isAuth 
-                ? <div>{props.login} <button onClick={props.logout}>Log out</button></div>
-                : <NavLink to={'/login'}>Log in</NavLink>}
-                
-            </div>
-        </header>
+        <Header className="header">
+            <Row>
+                <Col span={20}>
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                <Menu.Item key="1"><NavLink to="/profile">My Profile</NavLink></Menu.Item>
+                <Menu.Item key="2"><NavLink to="/dialogs">Messages</NavLink></Menu.Item>
+                <Menu.Item key="3"><NavLink to="/users">Users</NavLink></Menu.Item>
+                </Menu>
+                </Col>
+                <Col span={4}>
+                    
+                    {isAuth
+                        ? <div className={classes.username}>
+                            <Avatar style={{backgroundColor: '#87d068'}} icon={<UserOutlined />} />
+                            {` ${login} `} <Button onClick={logout}>Log out</Button>
+                        </div>
+                        : <NavLink to={'/login'}><Button>Log in</Button></NavLink>}
+                </Col>
+            </Row>
+      </Header>
     )
 }
 
-export default Header;

@@ -1,10 +1,13 @@
 import Preloader from '../../common/Preloader/Preloader';
 import classes from './ProfileInfo.module.css'
+import '../../../App.css'
+
 import ProfileStatus from './ProfileStatus/ProfileStatusСlass';
 import userPhoto from '../../../assets/images/user-icon.png'
 import { useState, ChangeEvent } from 'react';
 import ProfileDataForm from './ProfileDataForm';
 import { ContactsType, ProfileType } from '../../../types/Types';
+import { Button } from 'antd';
 
 type PropsType = {
   profile: ProfileType
@@ -38,13 +41,19 @@ const ProfileInfo = (props: PropsType) => {
     return (
       <div>
         <div className={classes.descriptionBlock}>
-          <img src={props.profile.photos.large || userPhoto} className={classes.mainPhoto} alt="" />
-          {props.isOwner && <input type={'file'} onChange={mainPhotoSelected}/>}
-          
+          <div className={props.isOwner ? classes.ownerImageBlock : classes.userImageBlock}>
+            <img src={props.profile.photos.large || userPhoto} className={classes.mainPhoto} alt="" />
+            {props.isOwner && 
+              <Button className={classes.fileUploadButton}>
+                <label className={classes.fileUploadLabel}>
+                  Choose File
+                  <input type={'file'} onChange={mainPhotoSelected} className={classes.fileUploadInput}></input>
+                </label>
+              </Button>}
+          </div>
+          <ProfileStatus statusText={props.statusText} updateStatusText={props.updateStatusText} isOwner={props.isOwner}/>
           {editMode ? <ProfileDataForm profile={props.profile} onSubmit={onSubmit}/> 
           : <ProfileData profile={props.profile} isOwner={props.isOwner} goToEditMode={() => {setEditMode(true)}}/>}
-      
-          <ProfileStatus statusText={props.statusText} updateStatusText={props.updateStatusText}/>
         </div>
       </div>
     )
@@ -58,17 +67,17 @@ type ProfileDataPropsType = {
 
 const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataPropsType) => {
   return (
-    <div>
-      {isOwner && <div><button onClick={goToEditMode}>Edit</button></div>}
-      <div><b>Full name: </b> {profile.fullName}</div>
-      <div><b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}</div>
+    <div className={classes.infoBlock}>
+      <div className={classes.infoElement}><b>Full name: </b> {profile.fullName}</div>
+      <div className={classes.infoElement}><b>Looking for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}</div>
       {profile.lookingForAJob &&
-        <div><b>My profesional skills:</b> {profile.lookingForAJobDescription}</div>
+        <div className={classes.infoElement}><b>My profesional skills:</b> {profile.lookingForAJobDescription}</div>
       }
-      <div><b>About me:</b> {profile.aboutMe}</div>
-      <div><b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
+      <div className={classes.infoElement}><b>About me:</b> {profile.aboutMe}</div>
+      <div className={classes.infoElement}><b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
         return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
       })}</div>
+      {isOwner && <div><Button onClick={goToEditMode}>Edit</Button></div>}
     </div>
   ) 
 }

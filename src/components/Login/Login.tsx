@@ -1,20 +1,25 @@
 import { FC } from "react";
 import {Formik, Form, Field, ErrorMessage, FormikErrors, FormikProps} from "formik";
-import { connect, ConnectedProps } from "react-redux";
+import { connect, ConnectedProps, useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { loginThunkCreator, logoutThunkCreator } from "../../redux/authReducer";
 import loginFormSchema from "../FormValidation/LoginFormSchema";
-import { AppStateType } from "../../redux/reduxStore";
+import { AppDispatch, AppStateType } from "../../redux/reduxStore";
+import classes from './Login.module.css'
+import { Button } from 'antd';
 
 
-const Login = (props: PropsFromConnect) => {
+export const Login = () => {
 
-    if(props.isAuth) return <Navigate to={'/profile'} />
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl)
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth)
+
+    if(isAuth) return <Navigate to={'/profile'} />
 
     return(
         <div>
-            <h1>Login</h1>
-            <LoginForm {...props}/>
+            <h1 className={classes.loginTitle}>Login</h1>
+            <LoginForm captchaUrl={captchaUrl} isAuth={isAuth}/>
         </div>
     );
 }
@@ -26,14 +31,22 @@ type LoginFormValuesType = {
     captcha: string
 }
 
-const LoginForm = (props: PropsFromConnect) => {
+type LoginFormPropsType = {
+    captchaUrl: string | null
+    isAuth: boolean | null
+}
+
+const LoginForm = (props: LoginFormPropsType) => {
+
+    const dispatch: AppDispatch = useDispatch()
 
     const initialValues: LoginFormValuesType = {
-        email: "",
-        password: "",
+        email: "artur.kartsan.silva@gmail.com",
+        password: "adminadmin",
         rememberMe: false,
         captcha: ""
     }
+
     return (
         <Formik
             initialValues={initialValues}
@@ -48,46 +61,35 @@ const LoginForm = (props: PropsFromConnect) => {
                 } 
                 return errors;
             }}
-            onSubmit={(values, { setSubmitting, setStatus }) => {
-                console.log(values)
-                props.login(values.email, values.password, values.rememberMe, values.captcha, setStatus)
-                    .then(() => setSubmitting(false))
+            onSubmit={async (values, { setSubmitting, setStatus }) => {
+                await dispatch(loginThunkCreator(values.email, values.password, values.rememberMe, values.captcha, setStatus))
+                await setSubmitting(false)
             }}
             validationSchema={loginFormSchema}>
             {({isSubmitting, status}) => (
                 <Form>
                     <div>
-                        <Field type={'text'} name={'email'} placeholder={'e-mail'}/>
+                        <Field className={classes.loginInput} type={'text'} name={'email'} placeholder={'e-mail'}/>
                     </div>
                     <ErrorMessage name="email" component="div"/>
 
                     <div>
-                        <Field type={'password'} name={'password'} placeholder={'password'}/>
+                        <Field className={classes.loginInput} type={'password'} name={'password'} placeholder={'password'}/>
                     </div>
                     <ErrorMessage name="password" component="div"/>
 
-                    <div>
+                    <div className={classes.loginInput}>
                         <Field type={'checkbox'} name={'rememberMe'}/>
                         <label htmlFor={'rememberMe'}> remember me </label>
                     </div>
                     <div>{status}</div>
-                    <div>{isSubmitting.toString()}</div>
                     {props.captchaUrl && <img src={props.captchaUrl} />}
                     <div>{props.captchaUrl && <Field type={'text'} name={'captcha'}/>}</div>
-                    <div><button type={'submit'} disabled={isSubmitting}>Log in</button></div>
+                    <div>
+                        <button className={classes.submitButton} type={'submit'} disabled={isSubmitting}>Log in</button>
+                    </div>
                 </Form>
             )}
         </Formik>
     )
 }
-
-const mapStateToProps = (state: AppStateType) => ({
-    captchaUrl: state.auth.captchaUrl,
-    isAuth: state.auth.isAuth
-})
-
-type PropsFromConnect = ConnectedProps<typeof LoginConnector>
-
-const LoginConnector = connect(mapStateToProps, {login: loginThunkCreator, logout: logoutThunkCreator});
-
-export default LoginConnector(Login)

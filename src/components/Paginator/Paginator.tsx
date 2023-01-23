@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import classes from './Paginator.module.css'
 import { NavLink } from 'react-router-dom';
 import classnames from "classnames"
+import { Button, Pagination } from "antd";
 
 type PropsType = {
     totalItemsCount: number,
@@ -27,24 +28,27 @@ const Paginator: React.FC<PropsType> = ({
     const rightPortionPageNumber = portionNumber * portionSize
 
     return (
+        
     <div className={classes.paginator}>
+        
         {
-            portionNumber > 1 &&
-            <button onClick={() => {setPortionNumber(portionNumber - 1)}}>Prev</button>
+            <Button disabled={portionNumber <= 1} onClick={() => {setPortionNumber(portionNumber - 1)}}>Prev</Button>
         }
         {
         pages.filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber).map(page => {
-            return <span
-                className={classnames({
-                    [classes.selectedPage] : currentPage === page
-                }, classes.pageNumber)}
-                key={page}
-                onClick={() => onPageChanged(page)}
-            >{page}</span>
+            return <div className={classes.pageNumberWrapper}>
+                <span
+                    className={classnames({
+                        [classes.selectedPage] : currentPage === page
+                    }, classes.pageNumber)}
+                    key={page}
+                    onClick={() => onPageChanged(page)}
+                >{page}</span>
+            </div>
         })}
         {
-            portionCount > portionNumber &&
-            <button onClick={() => {setPortionNumber(portionNumber + 1)}}>Next</button>
+            
+            <Button disabled={ portionNumber > portionCount - 1} onClick={() => {setPortionNumber(portionNumber + 1)}}>Next</Button>
         }
     </div>
     )

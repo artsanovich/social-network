@@ -1,3 +1,7 @@
+.user {
+    margin-bottom: 10px;
+}
+
 .userPhoto {
     width: 100px;
     height: 100px;
@@ -5,4 +9,12 @@
 
 .selectedPage {
     font-weight: bold;
+}
+
+.userName {
+    margin-bottom: 5px;
+}
+
+.userStatus {
+    margin-bottom: 5px;
 }

@@ -1,3 +1,34 @@
-.postsBlock {
-    padding: 10px;
+.messageForm {
+    margin-bottom: 20px;
+}
+
+.postsTitle {
+    margin: 0 0 20px 0;
+    font-size: 32px;
+}
+
+.messageTitle {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.messageInput {
+    margin-bottom: 5px;
+}
+
+.messageInput input {
+    font-size: 16px;
+}
+
+.messageSubmit {
+    font-size: 14px;
+  height: 32px;
+  padding: 4px 15px;
+  border-radius: 6px;
+  background-color: #4096ff;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  outline: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  color: #ffffff;
 }

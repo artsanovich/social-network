@@ -1,13 +1,25 @@
 .paginator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin: 10px;
+    max-width: 600px;
+    width: 100%;
+}
+
+.pageNumberWrapper {
+     justify-content: space-between;
 }
 
 .pageNumber {
-    padding: 2px;
-    border: 1px solid grey
+    display: block;
+    padding: 7px 11px;
+    
 }
 
 .pageNumber.selectedPage {
     font-weight: bold;
-    border-color: black;
+    color: #4096ff;
+    border: 1px solid #4096ff;
+    border-radius: 5px;
 }

@@ -2,7 +2,7 @@ import {Formik, FormikProps, Form, Field, ErrorMessage} from "formik";
 import { FC } from "react";
 import { ProfileType } from "../../../types/Types";
 import ProfileDataFormSchema from "../../FormValidation/ProfileDataFormSchema";
-import classes from './ProfileInfo.module.css'
+import classes from './ProfileDataForm.module.css'
 
 type FormProps = {
     profile: ProfileType,
@@ -20,7 +20,6 @@ const ProfileDataForm: FC<FormProps> = ({profile, onSubmit}: FormProps) => {
         validationSchema={ProfileDataFormSchema}>
         {() => (
             <Form>
-                <button type={'submit'}>Save</button>
                 <div>
                     <b>Full name: </b> 
                     <Field type={'text'} name={'fullName'} placeholder={'add name...'}/>
@@ -50,6 +49,7 @@ const ProfileDataForm: FC<FormProps> = ({profile, onSubmit}: FormProps) => {
                     )
                     })}
                 </div>
+                <button className={classes.submitButton} type={'submit'}>Save</button>
             </Form>
           )}
     </Formik>
