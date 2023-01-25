@@ -16,6 +16,7 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import SubMenu from 'antd/es/menu/SubMenu';
 import { NavLink } from 'react-router-dom';
 import { AppHeader } from './components/Header/Header';
+import { HashRouter } from 'react-router-dom';
 
 const { Content, Footer, Sider } = Layout;
 
