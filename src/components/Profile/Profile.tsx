@@ -1,5 +1,5 @@
 import ProfileInfo from './ProfileInfo/ProfileInfo';
-import MyPostsContainer from './MyProsts/Post/MyPostsContainer';
+import MyPostsContainer from './MyPosts/Post/MyPostsContainer';
 import { ProfileType } from '../../types/Types';
 import classes from './Profile.module.css'
 

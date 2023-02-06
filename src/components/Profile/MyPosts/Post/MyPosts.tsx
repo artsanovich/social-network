@@ -8,7 +8,7 @@ import { MyPostsPropsFromConnect } from './MyPostsContainer';
 
 const MyPosts = (props: MyPostsPropsFromConnect) => {
 
-  const postsElements = props.posts.map(p => <Post message={p.message} likesCount={p.likesCount} />);
+  const postsElements = props.posts.map(p => <Post message={p.message} key={p.id} likesCount={p.likesCount} />);
   
   return (
     <div className={classes.postsBlock}>

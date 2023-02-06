@@ -28,10 +28,8 @@ export const AppHeader = () => {
         <Header className="header">
             <Row>
                 <Col span={20}>
-                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
+                <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
                 <Menu.Item key="1"><NavLink to="/profile">My Profile</NavLink></Menu.Item>
-                <Menu.Item key="2"><NavLink to="/dialogs">Messages</NavLink></Menu.Item>
-                <Menu.Item key="3"><NavLink to="/users">Users</NavLink></Menu.Item>
                 </Menu>
                 </Col>
                 <Col span={4}>

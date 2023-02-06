@@ -1,3 +1,9 @@
+.users {
+    height: 550px;
+    overflow-y: auto;
+    border-radius: 10px;
+}
+
 .user {
     margin-bottom: 10px;
 }

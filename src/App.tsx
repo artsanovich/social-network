@@ -47,6 +47,7 @@ const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOu
 
 const DialogsContainer = React.lazy(() => import('./components/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./components/Profile/ProfileContainer'))
+const ChatPage = React.lazy(() => import('./pages/Chat/ChatPage'))
 
 const App = (props: AppPropsFromConnect) => {
 
@@ -61,7 +62,7 @@ const App = (props: AppPropsFromConnect) => {
     <>
     <Layout>
       <AppHeader />
-      <Content style={{ padding: '0 50px' }}>
+      <Content  style={{ padding: '0 50px' }}>
         <Breadcrumb style={{ margin: '16px 0' }}>
         </Breadcrumb>
         <Layout style={{ padding: '24px 0', background: colorBgContainer }}>
@@ -73,15 +74,15 @@ const App = (props: AppPropsFromConnect) => {
               style={{ height: '100%' }}
             >
               <SubMenu key="sub1" icon={<UserOutlined />} title="My Profile">
-                <Menu.Item key="1"><NavLink to="/profile">profile</NavLink></Menu.Item>
-                <Menu.Item key="2"><NavLink to="/dialogs">messages</NavLink></Menu.Item>
+                <Menu.Item key="1"><NavLink to="/profile">Profile</NavLink></Menu.Item>
+                <Menu.Item key="2"><NavLink to="/chat">Chat</NavLink></Menu.Item>
               </SubMenu>
               <SubMenu key="sub2" icon={<LaptopOutlined />} title="Users">
                 <Menu.Item key="5"><NavLink to="/users">Users</NavLink></Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
-          <Content style={{ padding: '0 24px', minHeight: 280 }}>
+          <Content style={{ height: 'calc(100vh - 209px)', padding: '0 24px', minHeight: 280 }}>
             <Suspense fallback={<div><Preloader /></div>}>
               <Routes>
                 <Route path="/" element={<Navigate to={'profile'}/>}/>
@@ -97,6 +98,11 @@ const App = (props: AppPropsFromConnect) => {
                   path="/users" 
                   element={
                     <UsersContainer />
+                }/>
+                <Route 
+                  path="/chat" 
+                  element={
+                    <ChatPage />
                 }/>
                 <Route 
                   path="/login" 

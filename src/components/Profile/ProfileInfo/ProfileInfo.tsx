@@ -75,7 +75,7 @@ const ProfileData = ({profile, isOwner, goToEditMode}: ProfileDataPropsType) => 
       }
       <div className={classes.infoElement}><b>About me:</b> {profile.aboutMe}</div>
       <div className={classes.infoElement}><b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
-        return <Contact contactTitle={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
+        return <Contact contactTitle={key} key={key} contactValue={profile.contacts[key as keyof ContactsType]}/>
       })}</div>
       {isOwner && <div><Button onClick={goToEditMode}>Edit</Button></div>}
     </div>
