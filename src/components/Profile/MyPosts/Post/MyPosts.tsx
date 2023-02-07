@@ -39,7 +39,6 @@ const AddNewPostForm = (props: MyPostsPropsFromConnect) => {
   
   return (
       <div className={classes.messageForm}>
-          <h1 className={classes.messageTitle}>Add Message</h1>
           <Formik
               initialValues={initialValues}
               validate={values => {

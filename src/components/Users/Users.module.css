@@ -1,5 +1,5 @@
 .users {
-    height: 550px;
+    height: 60vh;
     overflow-y: auto;
     border-radius: 10px;
 }
