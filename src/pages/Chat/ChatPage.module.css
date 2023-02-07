@@ -1,0 +1,10 @@
+.messages {
+    height: 60vh;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.messageInput {
+    margin-bottom: 5px;
+}

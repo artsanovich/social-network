@@ -1,0 +1,7 @@
+.profileWrapper {
+    display: flex;
+}
+
+.profileInfoWrapper {
+    margin-right: 100px;
+}

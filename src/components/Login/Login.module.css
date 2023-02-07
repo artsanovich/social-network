@@ -1,26 +1,19 @@
-.dialogs {
-    display: grid;
-    grid-template-columns: 2fr 10fr;
+.loginTitle {
+  font-size: 24px;
 }
 
-.dialogsItems {
-    padding: 10px;
+.loginInput {
+  display: flex;
+  margin-bottom: 5px;
+  font-size: 16px;
 }
-
-.dialogsItems .active {
-    color: red;
-}
-
-.messages {
-    padding: 10px;
-}
-
-.messageInput {
-    margin-bottom: 10px;
+.buttonGroup {
+  display: flex;
 }
 
 .submitButton {
-    font-size: 14px;
+  margin-right: 10px;
+  font-size: 14px;
     height: 32px;
     padding: 4px 15px;
     border-radius: 6px;
